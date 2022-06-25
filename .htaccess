@@ -1,0 +1,7 @@
+RewriteEngine on
+RewriteCond $1 !^(index\.php|images|assets|robots\.txt|css|reporte_file|uploads|download)
+RewriteRule ^(.*)$ ./index.php/$1 [L]
+#RewriteRule ^(.*)$ /salientes2.0/index.php/$1 [L] 
+ErrorDocument 404 /404.php
+#Testing
+#ErrorDocument 404 /salientes2.0/404.php
