@@ -98,7 +98,14 @@ $muestraBase = ($nivel == "3") ? "hidden" : "";
                                     <li id="menuCuadranteMiembros">
                                         <a href="#"><i class="glyphicon glyphicon-file" style="color: #204d74"></i> Cuadrante Membresia</a>
                                     </li>
-
+                                    <li class="divider"></li>
+                                    <li id="menuCursosMatrimonios">
+                                        <a href="#"><i class="glyphicon glyphicon-file" style="color: #204d74"></i> Cursos Matrimonios</a>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li id="cantidadesMatrimonios">
+                                        <a href="#"><i class="glyphicon glyphicon-file" style="color: #204d74"></i> Cantidades Matrimonios</a>
+                                    </li>
                                 </ul>
                             </li>
                         </ul>

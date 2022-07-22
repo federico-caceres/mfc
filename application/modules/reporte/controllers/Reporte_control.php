@@ -169,6 +169,35 @@ class Reporte_control extends Mfcparaguay {
         echo json_encode($data);
     }
 
+    public function viewReporteCursosMatrimonios() {
+        $userData = $this->session->userdata('userData');
+        $nivel = $userData->nivel;
+        $idDiocesis = (($nivel == 1) ? "-1" : $userData->iddiocesis);
+        $idBase = (($nivel != 3) ? "-1" : $userData->idbase);
+
+        $datos = array(
+            'tablaCursos' => Modules::run('reporte/Reporte_control/viewTableCursosMatrimonios'),
+            'diocesis' => $this->m_matrimonio->getDiocesis($idDiocesis),
+            'bases' => $this->m_matrimonio->getBases($idDiocesis, $idBase),
+            'grupos' => $this->m_matrimonio->getGrupos($idBase, "-1")
+        );
+
+        $data['vista'] = $this->load->view('vistaReporteCursosMatrimonios', $datos, TRUE);
+
+        echo json_encode($data);
+    }
+
+    public function viewReporteCantidadMatrimonios() {
+
+        $datos = array(
+            'cantidades' => $this->m_reporte->getCantidadMatrimoniosPorDiocesis(),
+            'total' => $this->m_reporte->getCantidadMatrimoniosTotal());
+
+        $data['vista'] = $this->load->view('vistaReporteCantidadMatrimonios', $datos, TRUE);
+
+        echo json_encode($data);
+    }
+
     public function viewReporteCuadranteJuvenilBusca() {
         $userData = $this->session->userdata('userData');
         $nivel = $userData->nivel;
@@ -217,9 +246,19 @@ class Reporte_control extends Mfcparaguay {
 
         $bd_Flag = ($params[4] !== '-1') ? $this->checkDates($params[4], "-1") : 0;
         $registros = $this->m_reporte->get_infoReportCuadranteMiembros(array($params[0], $params[1], $params[2], $params[3], $this->formato_mysql($params[4])), $bd_Flag);
-        //$mostrarReporte = array();
 
         $this->load->view('vistaReporteCuadranteTableroMiembros', array('ReporteCuadranteMiembros' => $registros));
+    }
+    public function vistaReporteCursosMatrimonios($params) {
+
+        $data = $this->m_reporte->getFilterCursosMatrimonios(array($params[0], $params[1], $params[2]));
+
+        $this->load->view('tablaCursosMatrimonios', array('data' => $data));
+    }
+
+    public function viewTableCursosMatrimonios(){
+        $data = $this->m_reporte->getCursosMatrimonios();
+        $this->load->view('tablaCursosMatrimonios', array('data'=> $data));
     }
 
     public function viewReporteCuadranteJuvenilTablero($params) {

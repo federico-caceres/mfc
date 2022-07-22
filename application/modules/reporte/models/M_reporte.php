@@ -413,6 +413,67 @@ class M_reporte extends M_general {
             }
         }
     }
+
+    public function getCursosMatrimonios(){
+
+        $this->db->select("d.nombre as diocesis, b.bases as base, g.grupos, concat(m.ella_nombre, ' y ', m.el_nombre, ' ', el_apellidos) as matrimonio, c.nombre as curso, ecm.fecha, ecm.lugar")
+        ->from("matrimonio m")
+        ->join("estudio_cursado_matrimonios ecm","ecm.idmatrimonio = m.idmatrimonio")
+        ->join("cursos c","c.idcurso = ecm.idcurso")
+        ->join("diocesis d","d.iddiocesis = m.iddiocesis")
+        ->join("bases b","b.idbase = m.idbase")
+        ->join("grupos g", "g.idgrupo = m.idgrupo", "left");
+
+        $q = $this->db->get();
+        return array();
+    }
+
+    public function getFilterCursosMatrimonios($params){
+        $userData = $this->session->userdata('userData');
+        $nivel = $userData->nivel;
+
+        $this->db->select("d.nombre as diocesis, b.bases as base, g.grupos, concat(m.ella_nombre, ' y ', m.el_nombre, ' ', el_apellidos) as matrimonio, c.nombre as curso, ecm.fecha, ecm.lugar")
+        ->from("matrimonio m")
+        ->join("estudio_cursado_matrimonios ecm","ecm.idmatrimonio = m.idmatrimonio")
+        ->join("cursos c","c.idcurso = ecm.idcurso")
+        ->join("diocesis d","d.iddiocesis = m.iddiocesis")
+        ->join("bases b","b.idbase = m.idbase")
+        ->join("grupos g", "g.idgrupo = m.idgrupo", "left");
+        
+        if ($params[0] != "-1") 
+            $this->db->where("d.iddiocesis",$params[0]);
+        if ($params[1] != "-1") 
+            $this->db->where("b.idbase",$params[1]);
+        if ($params[2] != "-1") 
+            $this->db->where("g.idgrupo",$params[2]);
+
+        $q = $this->db->get();
+        return $q->result();
+    }
+
+    public function getCantidadMatrimoniosPorDiocesis(){
+        $this->db->select("d.nombre, count(*) as cant")
+        ->from("matrimonio m")
+        ->join("diocesis d","d.iddiocesis = m.iddiocesis")
+        // ->join("bases b","b.idbase = m.idbase")
+        ->where("m.borrado", 0)
+        ->group_by(array("d.nombre"))
+        ->order_by("d.nombre", "asc");
+
+        $q = $this->db->get();
+        return $q->result();        
+    }
+
+    public function getCantidadMatrimoniosTotal(){
+        $this->db->select("count(*) as cant")
+        ->from("matrimonio m")
+        ->join("diocesis d","d.iddiocesis = m.iddiocesis")
+        ->where("m.borrado", 0);
+
+        $q = $this->db->get();
+        return $q->result();        
+    }
+
     public function get_infoReportCuadranteMiembros($params) {
         $userData = $this->session->userdata('userData');
         $nivel = $userData->nivel;

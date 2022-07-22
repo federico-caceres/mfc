@@ -312,6 +312,12 @@ $(document).ready(function () {
     $('#div_contenedor_menu').on('click', '#menuCuadranteMiembros', function () {
         viewReporteCuadranteMiembrosBusca();
     });
+    $('#div_contenedor_menu').on('click', '#menuCursosMatrimonios', function () {
+        viewReporteCursosMatrimonios();
+    });
+    $('#div_contenedor_menu').on('click', '#cantidadesMatrimonios', function () {
+        viewReporteCantidadMatrimonios();
+    });
     $('#div_contenedor_menu').on('click', '#menuSJ09', function () {
         viewReporteSJ09Busca();
     });
@@ -448,6 +454,40 @@ $(document).ready(function () {
                 $("#contenedorInferiorReporte").empty();
                 $("#contenedorInferiorReporte").html(data);
                 _reiniciarTablero('tablero_reporteCuadranteMiembros');
+
+            }
+        });
+    });
+    $('body').on('click', '#btn_excel_CursosMatrimonios', function () {
+        console.log('test 2');
+    });
+    $('body').on('click', '#btn_search_CursosMatrimonios', function () {
+        var nivelUsuario = $("#nivelUsuario").val();
+        var id_diocesis = ($("#id_diocesis").val() == "") ? "-1" : $("#id_diocesis").val();
+        var id_base = ($("#id_base").val() == "") ? "-1" : $("#id_base").val();
+        var id_grupo = ($("#id_grupo").val() == "") ? "-1" : $("#id_grupo").val();
+
+        if (nivelUsuario == "3" && (id_diocesis == "-1" || id_base == "-1")) {
+            notificacionGlobal("Atención", "Diocesis y base son obligatorios para su nivel de acceso", "error", 5000);
+            return false;
+        }
+        var url_function = 'reporte/Reporte_control/vistaReporteCursosMatrimonios/' + id_diocesis + '/' + id_base + '/' + id_grupo;
+        $.ajax({
+            url: url_function,
+            type: 'POST',
+            error: function (jqXHR, textStatus, errorThrown) {
+                var registro = new Array(this.url, jqXHR, textStatus, errorThrown);
+                registrar_log(registro);
+            },
+            beforeSend: function () {
+                $("#contenedorInferiorReporte").empty();
+                $("#contenedorInferiorReporte").html('<div align="center"><img src="' + $('#url_b').val() + 'assets/img/cargando.gif"></div>');
+            },
+            success: function (data) {
+
+                $("#contenedorInferiorReporte").empty();
+                $("#contenedorInferiorReporte").html(data);
+                _reiniciarTablero('tablaCursosMatrimonios');
 
             }
         });
@@ -1240,7 +1280,7 @@ function viewReporteCuadranteMiembrosBusca() {
 
     $.ajax({
         url: $('#url_b').val() + 'reporte/Reporte_control/viewReporteCuadranteMiembrosBusca',
-        //data: {iddiocesis: iddiocesis, idbase: idbase, idgrupo: idgrupo, fechaDesde: fechaDesde, fechaHasta: fechaHasta},
+        // data: {iddiocesis: iddiocesis, idbase: idbase, idgrupo: idgrupo, fechaDesde: fechaDesde, fechaHasta: fechaHasta},
         type: 'POST',
         dataType: 'json',
         error: function (jqXHR, textStatus, errorThrown) {
@@ -1258,45 +1298,52 @@ function viewReporteCuadranteMiembrosBusca() {
             $("#contenedor_central").attr("style", "margin-bottom: 10%; margin-top: 5%");
             $("#contenedor_central").html(data.vista);
             _reiniciarTablero('tablero_reporteCuadranteMiembros');
-            $.datepicker.regional['es'] =
-                    {
-                        closeText: 'Cerrar',
-                        prevText: 'Previo',
-                        nextText: 'Próximo',
-                        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-                        monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-                        monthStatus: 'Ver otro mes', yearStatus: 'Ver otro año',
-                        dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
-                        dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sáb'],
-                        dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
-                        dateFormat: 'dd/mm/yy', firstDay: 0,
-                        initStatus: 'Selecciona la fecha', isRTL: false};
 
-            $.datepicker.setDefaults($.datepicker.regional['es']);
-
-            $("#fec_desdeCV").datepicker({
-                dateFormat: 'dd/mm/yy',
-                autoclose: true,
-                regional: 'es',
-                orientation: 'bottom auto',
-                todayBtn: 'linked',
-                todayHighlight: true,
-                //minDate: "-3M",
-                maxDate: 0
-            });
-
-            $("#fec_hastaCV").datepicker({
-                dateFormat: 'dd/mm/yy',
-                autoclose: true,
-                regional: 'es',
-                orientation: 'bottom auto',
-                todayBtn: 'linked',
-                todayHighlight: true,
-                //minDate: "-3M",
-                maxDate: 0
-            });
         }
     });
+}
+function viewReporteCursosMatrimonios(){
+    $.ajax({
+        url: $('#url_b').val() + 'reporte/Reporte_control/viewReporteCursosMatrimonios',
+        type: 'POST',
+        dataType: 'json',
+        error: function (jqXHR, textStatus, errorThrown) {
+            var registro = new Array(this.url, jqXHR, textStatus, errorThrown);
+            registrar_log(registro);
+        },
+        beforeSend: function () {
+            $("#contenedor_central").empty();
+            $("#contenedor_central").html('<div align="center"><img src="' + $('#url_b').val() + 'assets/img/cargando.gif"></div>');
+
+        },
+        success: function (data) {
+            $("#contenedor_central").empty();
+            $("#contenedor_central").attr("style", "margin-bottom: 10%; margin-top: 5%");
+            $("#contenedor_central").html(data.vista);
+            _reiniciarTablero('tablaCursosMatrimonios');
+        }
+    });   
+}
+function viewReporteCantidadMatrimonios(){
+    $.ajax({
+        url: $('#url_b').val() + 'reporte/Reporte_control/viewReporteCantidadMatrimonios',
+        type: 'POST',
+        dataType: 'json',
+        error: function (jqXHR, textStatus, errorThrown) {
+            var registro = new Array(this.url, jqXHR, textStatus, errorThrown);
+            registrar_log(registro);
+        },
+        beforeSend: function () {
+            $("#contenedor_central").empty();
+            $("#contenedor_central").html('<div align="center"><img src="' + $('#url_b').val() + 'assets/img/cargando.gif"></div>');
+
+        },
+        success: function (data) {
+            $("#contenedor_central").empty();
+            $("#contenedor_central").attr("style", "margin-bottom: 10%; margin-top: 5%");
+            $("#contenedor_central").html(data.vista);
+        }
+    });   
 }
 function viewReporteCuadranteJuvenilBusca() {
 

@@ -1,17 +1,10 @@
 <?php
-//$request = ['assets' => array(['src' => 'assets/js/gestion/cuenta.js', 'type' => 'script']), 'base' => base_url()];
-//echo Modules::run('componente/js', array('js' => 'load_http', 'request' => $request));
-//
-//$filtros_Selected = $this->session->userdata('filtrosReporteEncuestas');
-//$today = ''; //date("d-m-Y");
-//
-//$countryName = 'Paraguay'; 
-$userData = $this->session->userdata('userData');
-$nivel = $userData->nivel;
+    $userData = $this->session->userdata('userData');
+    $nivel = $userData->nivel;
 ?>
 <div class="row responsive well" id="contenedorSuperiorReporte">
     <div style="text-align: center">
-        <h2>Cuadrante Membresia</h2>
+        <h2>Cursos realizados Matrimonios</h2>
     </div>
     <br>
     <input id="nivelUsuario" name="nivelUsuario" value="<?= $nivel ?>" hidden="">
@@ -30,27 +23,16 @@ $nivel = $userData->nivel;
             <?php echo Modules::run('componente/select', array('idSelect' => 'id_grupo', "clase" => "chosenselect", 'view_flag' => 30, 'data_select' => $grupos, 'nameSelect' => 'id_grupo', 'selected' => '', 'msgSelect' => 'Elije..')); ?>
         </div>
     </div>
-    <div class="form row">
-        <div class="col-sm-1"><strong>Nivel:</strong></div>
-        <div class="col-sm-3" >
-            <input type="number" id="nivel" name="nivel" class="" placeholder="Nivel" value="">
-        </div>
-        <div class="col-sm-2"><strong>Mes encuentro o membresia:</strong></div>
-        <div class="col-sm-2" >
-            <input type="text" id="fec_desdeCV" name="fec_desdeCV" class="" placeholder="Mes encuentro o membresia" value="">
-        </div>
-    </div>
+    
     <div class="form row">
         <div class="col-sm-3" id="botonesReporte">
 
-            <button class="btn bg-primary" id='btn_search_CuadranteMiembros' type="button"><span class="glyphicon glyphicon-filter">&nbsp;Filtrar</span></button>
-            <button class="btn btn-default active" id='btn_excel_CuadranteMiembros' data-flag="2" type="button"><span class="glyphicon glyphicon-download">&nbsp;Excel</span></button>
+            <button class="btn bg-primary" id='btn_search_CursosMatrimonios' type="button"><span class="glyphicon glyphicon-filter">&nbsp;Filtrar</span></button>
+            <!-- <button class="btn btn-default active" id='btn_excel_CursosMatrimonios' data-flag="2" type="button"><span class="glyphicon glyphicon-download">&nbsp;Excel</span></button> -->
         </div>
     </div>
 </div>
 
-<br>
-
 <div class="row responsive" id="contenedorInferiorReporte" style="padding: 10px; min-height: 25%;">
-    <?= $tableroCuadrante ?>
+    <?= $tablaCursos ?>
 </div>

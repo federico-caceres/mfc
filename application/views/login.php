@@ -39,37 +39,37 @@
             <div id="loading"></div>
             <div id="box-login">
 
+                
                 <img src="assets/img/logo.png" data-sr="enter bottom over 1.5s and move 130px">
-
-                <div class="panel panel-default">
-                    <div class="panel-heading">
+                <div class="panel">
+                    <!-- <div class="panel-heading">
                         <h3 class="panel-title"><i class="glyphicon glyphicon-lock"></i> Ingrese su usuario y contraseña</h3>
-                    </div>
+                    </div> -->
                     <div class="panel-body" style="text-align: center;">
                         <form id="idFormLogin"  method="post" class="form-horizontal" accept-charset="UTF-8" role="form">
                             <fieldset>                           
                                 <small id="idmsg" class="text-error warning text-danger" hidden=""></small>
                                 <div class="form-group input-group-lg">
-                                    <input type="text"  class="form-control" id="id_user" name="nm_usuario" placeholder="Usuario ...">
+                                    <input type="text"  class="form-control" id="id_user" name="nm_usuario" placeholder="Usuario">
                                 </div>
 
                                 <div class="form-group input-group-lg" id="clcontrasenha">                           
-                                    <input type="password" name="nm_clave" class="form-control" id="id_passw" placeholder="Contraseña ...">                                    
+                                    <input type="password" name="nm_clave" class="form-control" id="id_passw" placeholder="Contraseña">                                    
 
                                 </div>
 
                                 <div class="row"> 
                                     <div class="col-sm-12">
-                                        <button class="btn btn-lg bg-primary btn-block" type="submit">Aceptar</button>
+                                        <button class="btn btn-lg bg-primary btn-block" type="submit">Ingresar</button>
                                     </div>
 
                                 </div>
 
-                                <div class="row" >                                     
+                                <!-- <div class="row" >                                     
                                     <div class="col-sm-12 login_legend">
                                         <h3 class="panel-title">MFC Paraguay</h3>
                                     </div>
-                                </div>                            
+                                </div>                             -->
                                 <?php
                                 if ($msg != "") {
                                     echo "<div class='row' >                                     
